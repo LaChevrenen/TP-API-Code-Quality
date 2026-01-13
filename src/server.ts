@@ -1,7 +1,10 @@
 import express from 'express';
 import * as YAML from 'yaml';
 import swaggerUi from 'swagger-ui-express';
-import addressController from './adapters/driving/addressController';
+import partyController from './adapters/driving/partyController';
+import coordinateController from './adapters/driving/coordinateController';
+import userController from './adapters/driving/userController';
+import statisticsController from './adapters/driving/statisticsController';
 import path from 'path';
 import * as fs from "node:fs";
 
@@ -13,7 +16,10 @@ const swaggerDocument = YAML.parse(file)
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use('/addresses', addressController);
+app.use('/parties', partyController);
+app.use('/coordinates', coordinateController);
+app.use('/users', userController);
+app.use('/statistics', statisticsController);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
