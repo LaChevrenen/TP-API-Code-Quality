@@ -51,7 +51,7 @@ describe('CoordinateService', () => {
   });
 
   it('should return the coordinate when it exists', async () => {
-    const coord: Coordinate = { id: '1', city: 'Lyon', country: 'France' };q
+    const coord: Coordinate = { id: '1', city: 'Lyon', country: 'France' };
     mockRepo.findById.mockResolvedValue(coord);
     await expect(service.getCoordinate('1')).resolves.toEqual(coord);
     expect(mockRepo.findById).toHaveBeenCalledWith('1');
