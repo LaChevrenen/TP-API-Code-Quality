@@ -1,9 +1,9 @@
 import express from 'express';
 import request from 'supertest';
-import { createStatisticsRouter } from './statisticsController';
-import { InMemoryUserRepo } from '../driven/inMemoryUserRepo';
-import { InMemoryPartyRepo } from '../driven/inMemoryPartyRepo';
-import { InMemoryCoordinateRepo } from '../driven/inMemoryCoordinateRepo';
+import { createStatisticsRouter } from '../../adapters/driving/statisticsController';
+import { InMemoryUserRepo } from '../../adapters/driven/inMemoryUserRepo';
+import { InMemoryPartyRepo } from '../../adapters/driven/inMemoryPartyRepo';
+import { InMemoryCoordinateRepo } from '../../adapters/driven/inMemoryCoordinateRepo';
 
 describe('StatisticsController', () => {
   let app: express.Application;

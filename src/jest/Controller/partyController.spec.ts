@@ -1,7 +1,7 @@
 import express from 'express';
 import request from 'supertest';
-import { createPartyRouter } from './partyController';
-import { InMemoryPartyRepo } from '../driven/inMemoryPartyRepo';
+import { createPartyRouter } from '../../adapters/driving/partyController';
+import { InMemoryPartyRepo } from '../../adapters/driven/inMemoryPartyRepo';
 
 describe('PartyController', () => {
   let app: express.Application;

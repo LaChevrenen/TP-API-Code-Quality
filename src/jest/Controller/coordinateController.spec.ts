@@ -1,7 +1,7 @@
 import express from 'express';
 import request from 'supertest';
-import { createCoordinateRouter } from './coordinateController';
-import { InMemoryCoordinateRepo } from '../driven/inMemoryCoordinateRepo';
+import { createCoordinateRouter } from '../../adapters/driving/coordinateController';
+import { InMemoryCoordinateRepo } from '../../adapters/driven/inMemoryCoordinateRepo';
 
 describe('CoordinateController', () => {
   let app: express.Application;

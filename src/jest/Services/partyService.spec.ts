@@ -1,5 +1,5 @@
-import { PartyService } from './partyService';
-import { Party } from '../domain/party';
+import { PartyService } from '../../services/partyService';
+import { Party } from '../../domain/party';
 
 describe('PartyService', () => {
   let mockRepo: {

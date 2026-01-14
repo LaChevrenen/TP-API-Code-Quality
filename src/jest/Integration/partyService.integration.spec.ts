@@ -1,6 +1,6 @@
-import { PartyService } from './partyService';
-import { InMemoryPartyRepo } from '../adapters/driven/inMemoryPartyRepo';
-import { Party } from '../domain/party';
+import { PartyService } from '../../services/partyService';
+import { InMemoryPartyRepo } from '../../adapters/driven/inMemoryPartyRepo';
+import { Party } from '../../domain/party';
 
 describe('PartyService Integration Tests', () => {
   let service: PartyService;

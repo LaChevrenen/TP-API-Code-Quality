@@ -1,6 +1,6 @@
-import { UserService } from './userService';
-import { InMemoryUserRepo } from '../adapters/driven/inMemoryUserRepo';
-import { User } from '../domain/user';
+import { UserService } from '../../services/userService';
+import { InMemoryUserRepo } from '../../adapters/driven/inMemoryUserRepo';
+import { User } from '../../domain/user';
 
 describe('UserService Integration Tests', () => {
   let service: UserService;

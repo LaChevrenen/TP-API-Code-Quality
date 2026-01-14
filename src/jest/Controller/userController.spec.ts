@@ -1,7 +1,7 @@
 import express from 'express';
 import request from 'supertest';
-import { createUserRouter } from './userController';
-import { InMemoryUserRepo } from '../driven/inMemoryUserRepo';
+import { createUserRouter } from '../../adapters/driving/userController';
+import { InMemoryUserRepo } from '../../adapters/driven/inMemoryUserRepo';
 
 describe('UserController', () => {
   let app: express.Application;

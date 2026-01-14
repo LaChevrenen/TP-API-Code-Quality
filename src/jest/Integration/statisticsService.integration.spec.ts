@@ -1,7 +1,7 @@
-import { StatisticsService } from './statisticsService';
-import { InMemoryUserRepo } from '../adapters/driven/inMemoryUserRepo';
-import { InMemoryPartyRepo } from '../adapters/driven/inMemoryPartyRepo';
-import { InMemoryCoordinateRepo } from '../adapters/driven/inMemoryCoordinateRepo';
+import { StatisticsService } from '../../services/statisticsService';
+import { InMemoryUserRepo } from '../../adapters/driven/inMemoryUserRepo';
+import { InMemoryPartyRepo } from '../../adapters/driven/inMemoryPartyRepo';
+import { InMemoryCoordinateRepo } from '../../adapters/driven/inMemoryCoordinateRepo';
 
 describe('StatisticsService Integration Tests', () => {
   let service: StatisticsService;

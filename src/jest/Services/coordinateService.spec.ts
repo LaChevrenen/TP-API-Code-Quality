@@ -1,5 +1,5 @@
-import { CoordinateService } from './coordinateService';
-import { Coordinate } from '../domain/coordinate';
+import { CoordinateService } from '../../services/coordinateService';
+import { Coordinate } from '../../domain/coordinate';
 
 describe('CoordinateService', () => {
   let mockRepo: {

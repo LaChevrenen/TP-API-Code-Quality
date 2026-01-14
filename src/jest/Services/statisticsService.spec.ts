@@ -1,8 +1,8 @@
-import { StatisticsService } from './statisticsService';
-import { PartyAggregateCity, PartyAggregateCountry } from '../domain/partyAggregate';
-import { User } from '../domain/user';
-import { Party } from '../domain/party';
-import { Coordinate } from '../domain/coordinate';
+import { StatisticsService } from '../../services/statisticsService';
+import { PartyAggregateCity, PartyAggregateCountry } from '../../domain/partyAggregate';
+import { User } from '../../domain/user';
+import { Party } from '../../domain/party';
+import { Coordinate } from '../../domain/coordinate';
 
 describe('StatisticsService', () => {
   let mockUserRepo: {

@@ -1,6 +1,6 @@
-import { CoordinateService } from './coordinateService';
-import { InMemoryCoordinateRepo } from '../adapters/driven/inMemoryCoordinateRepo';
-import { Coordinate } from '../domain/coordinate';
+import { CoordinateService } from '../../services/coordinateService';
+import { InMemoryCoordinateRepo } from '../../adapters/driven/inMemoryCoordinateRepo';
+import { Coordinate } from '../../domain/coordinate';
 
 describe('CoordinateService Integration Tests', () => {
   let service: CoordinateService;

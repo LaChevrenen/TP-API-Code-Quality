@@ -1,5 +1,5 @@
-import { UserService } from './userService';
-import { User } from '../domain/user';
+import { UserService } from '../../services/userService';
+import { User } from '../../domain/user';
 
 describe('UserService', () => {
   let mockRepo: {
