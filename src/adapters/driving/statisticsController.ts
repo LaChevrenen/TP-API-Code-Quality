@@ -12,6 +12,11 @@ export function createStatisticsRouter(userRepo?: InMemoryUserRepo, partyRepo?: 
 
   const router = express.Router();
 
+  router.get('/', async (_req, res) => {
+    const counts = await service.getGlobalCounts();
+    res.json(counts);
+  });
+
   router.get('/city/:city', async (req, res) => {
     const city = req.params.city;
     const stats = await service.getStatisticsByCity(city);

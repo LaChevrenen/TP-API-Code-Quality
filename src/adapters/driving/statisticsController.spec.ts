@@ -20,6 +20,18 @@ describe('StatisticsController', () => {
     app.use('/statistics', createStatisticsRouter(userRepo, partyRepo, coordinateRepo));
   });
 
+  it('should return global statistics counts', async () => {
+    const response = await request(app).get('/statistics');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('users');
+    expect(response.body).toHaveProperty('coordinates');
+    expect(response.body).toHaveProperty('parties');
+    expect(typeof response.body.users).toBe('number');
+    expect(typeof response.body.coordinates).toBe('number');
+    expect(typeof response.body.parties).toBe('number');
+  });
+
   it('should return statistics for a city', async () => {
     const response = await request(app).get('/statistics/city/Lyon');
 

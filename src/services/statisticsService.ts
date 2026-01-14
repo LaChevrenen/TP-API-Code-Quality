@@ -11,6 +11,19 @@ export class StatisticsService implements StatisticsPort {
     private coordinateRepo: CoordinateRepositoryPort
   ) {}
 
+  async getGlobalCounts(): Promise<{ users: number; coordinates: number; parties: number }> {
+    const [users, coordinates, parties] = await Promise.all([
+      this.userRepo.findAll(),
+      this.coordinateRepo.findAll(),
+      this.partyRepo.findAll(),
+    ]);
+    return {
+      users: users.length,
+      coordinates: coordinates.length,
+      parties: parties.length,
+    };
+  }
+
   async getStatisticsByCity(city: string): Promise<PartyAggregateCity[]> {
     // Get all coordinates for the city
     const coordinates = await this.coordinateRepo.findByCity(city);

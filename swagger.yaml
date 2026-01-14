@@ -187,7 +187,20 @@ paths:
       responses:
         '201':
           description: Utilisateur créé
-  /statistics/{city}:
+  /statistics:
+    get:
+      tags:
+        - Analytics
+      summary: Statistiques globales
+      description: Retourne le nombre total d'utilisateurs, de coordonnées et de partis.
+      responses:
+        '200':
+          description: Statistiques globales récupérées
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlobalStatistics'
+  /statistics/city/{city}:
     get:
       tags:
         - Analytics
@@ -209,7 +222,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PartyAggregateCity'
-  /statistics/{country}:
+  /statistics/country/{country}:
     get:
       tags:
         - Analytics
@@ -293,3 +306,15 @@ components:
         member_count:
           type: integer
           example: 150
+    GlobalStatistics:
+      type: object
+      properties:
+        users:
+          type: integer
+          minimum: 0
+        coordinates:
+          type: integer
+          minimum: 0
+        parties:
+          type: integer
+          minimum: 0

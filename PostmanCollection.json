@@ -525,6 +525,66 @@
               "path": ["statistics"]
             }
           }
+        },
+        {
+          "name": "Get statistics by city",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Response is an array\", () => pm.expect(pm.response.json()).to.be.an('array'));",
+                  "pm.test(\"Elements have expected keys\", () => {",
+                  "  (pm.response.json() || []).forEach(item => {",
+                  "    pm.expect(item).to.have.property('party_name');",
+                  "    pm.expect(item).to.have.property('city');",
+                  "    pm.expect(item).to.have.property('member_count');",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/statistics/city/{{cityName}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["statistics", "city", "{{cityName}}"]
+            }
+          }
+        },
+        {
+          "name": "Get statistics by country",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Response is an array\", () => pm.expect(pm.response.json()).to.be.an('array'));",
+                  "pm.test(\"Elements have expected keys\", () => {",
+                  "  (pm.response.json() || []).forEach(item => {",
+                  "    pm.expect(item).to.have.property('party_name');",
+                  "    pm.expect(item).to.have.property('country');",
+                  "    pm.expect(item).to.have.property('member_count');",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/statistics/country/{{countryName}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["statistics", "country", "{{countryName}}"]
+            }
+          }
         }
       ]
     }
@@ -548,6 +608,16 @@
     {
       "key": "userId",
       "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cityName",
+      "value": "Lyon",
+      "type": "string"
+    },
+    {
+      "key": "countryName",
+      "value": "France",
       "type": "string"
     }
   ]
