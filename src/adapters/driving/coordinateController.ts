@@ -1,7 +1,6 @@
 import express from 'express';
 import { InMemoryCoordinateRepo } from '../driven/inMemoryCoordinateRepo';
 import { CoordinateService } from '../../services/coordinateService';
-import { Coordinate } from '../../domain/coordinate';
 
 export function createCoordinateRouter(repo?: InMemoryCoordinateRepo) {
   const coordinateRepo = repo || new InMemoryCoordinateRepo();
@@ -15,7 +14,7 @@ export function createCoordinateRouter(repo?: InMemoryCoordinateRepo) {
       return res.status(400).json({ message: 'city and country required' });
     }
     const created = await service.createCoordinate({ city, country });
-    res.status(201).json(created);
+    res.status(201).json({ id: created.id });
   });
 
   router.get('/', async (req, res) => {
@@ -32,6 +31,7 @@ export function createCoordinateRouter(repo?: InMemoryCoordinateRepo) {
     res.json(list);
   });
 
+  // Routes spécifiques AVANT la route générique /:id
   router.get('/:id', async (req, res) => {
     const id = req.params.id;
     const found = await service.getCoordinate(id);

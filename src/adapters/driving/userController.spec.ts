@@ -24,7 +24,7 @@ describe('UserController', () => {
       });
 
     expect(response.status).toBe(201);
-    expect(response.body.email).toBe('john@example.com');
+    expect(response.body.id).toBeDefined();
   });
 
   it('should return 400 when required field is missing', async () => {

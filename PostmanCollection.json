@@ -1,0 +1,554 @@
+{
+  "info": {
+    "_postman_id": "api-collection",
+    "name": "Address API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Coordinates",
+      "item": [
+        {
+          "name": "Create coordinate",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"Has ID\", () => pm.expect(pm.response.json()).to.have.property('id'));",
+                  "pm.test(\"ID is a string\", () => pm.expect(pm.response.json().id).to.be.a('string'));",
+                  "pm.test(\"ID is not empty\", () => pm.expect(pm.response.json().id).to.not.be.empty);",
+                  "pm.test(\"Response has only id property\", () => pm.expect(Object.keys(pm.response.json())).to.have.lengthOf(1));",
+                  "pm.globals.set(\"coordinateId\", pm.response.json().id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"city\": \"Paris\", \"country\": \"France\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/coordinates",
+              "host": ["{{baseUrl}}"],
+              "path": ["coordinates"]
+            }
+          }
+        },
+        {
+          "name": "Get all coordinates",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Response is an array\", () => pm.expect(pm.response.json()).to.be.an('array'));",
+                  "pm.test(\"Array has at least one element\", () => pm.expect(pm.response.json().length).to.be.greaterThan(0));",
+                  "pm.test(\"First element has id\", () => pm.expect(pm.response.json()[0]).to.have.property('id'));",
+                  "pm.test(\"First element has city\", () => pm.expect(pm.response.json()[0]).to.have.property('city'));",
+                  "pm.test(\"First element has country\", () => pm.expect(pm.response.json()[0]).to.have.property('country'));",
+                  "pm.test(\"Each coordinate has id, city, country\", () => {",
+                  "  pm.response.json().forEach(coord => {",
+                  "    pm.expect(coord).to.have.property('id');",
+                  "    pm.expect(coord).to.have.property('city');",
+                  "    pm.expect(coord).to.have.property('country');",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/coordinates",
+              "host": ["{{baseUrl}}"],
+              "path": ["coordinates"]
+            }
+          }
+        },
+        {
+          "name": "Get coordinate by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Response is an object\", () => pm.expect(pm.response.json()).to.be.an('object'));",
+                  "pm.test(\"Not an array\", () => pm.expect(pm.response.json()).to.not.be.an('array'));",
+                  "pm.test(\"Has id property\", () => pm.expect(pm.response.json()).to.have.property('id'));",
+                  "pm.test(\"Has city property\", () => pm.expect(pm.response.json()).to.have.property('city'));",
+                  "pm.test(\"Has country property\", () => pm.expect(pm.response.json()).to.have.property('country'));",
+                  "pm.test(\"ID matches requested ID\", () => pm.expect(pm.response.json().id).to.equal(pm.globals.get('coordinateId')));",
+                  "pm.test(\"City is Paris\", () => pm.expect(pm.response.json().city).to.equal('Paris'));",
+                  "pm.test(\"Country is France\", () => pm.expect(pm.response.json().country).to.equal('France'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/coordinates/{{coordinateId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["coordinates", "{{coordinateId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update coordinate",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Has id property\", () => pm.expect(pm.response.json()).to.have.property('id'));",
+                  "pm.test(\"Has city property\", () => pm.expect(pm.response.json()).to.have.property('city'));",
+                  "pm.test(\"Has country property\", () => pm.expect(pm.response.json()).to.have.property('country'));",
+                  "pm.test(\"City is updated to Lyon\", () => pm.expect(pm.response.json().city).to.equal('Lyon'));",
+                  "pm.test(\"Country is updated to France\", () => pm.expect(pm.response.json().country).to.equal('France'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"city\": \"Lyon\", \"country\": \"France\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/coordinates/{{coordinateId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["coordinates", "{{coordinateId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete coordinate",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"Response has no body\", () => pm.response.text().to.equal(''));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/coordinates/{{coordinateId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["coordinates", "{{coordinateId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Parties",
+      "item": [
+        {
+          "name": "Create party",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"Has ID\", () => pm.expect(pm.response.json()).to.have.property('id'));",
+                  "pm.test(\"ID is a string\", () => pm.expect(pm.response.json().id).to.be.a('string'));",
+                  "pm.test(\"ID is not empty\", () => pm.expect(pm.response.json().id).to.not.be.empty);",
+                  "pm.test(\"Response has only id property\", () => pm.expect(Object.keys(pm.response.json())).to.have.lengthOf(1));",
+                  "pm.globals.set(\"partyId\", pm.response.json().id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Socialist Party\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/parties",
+              "host": ["{{baseUrl}}"],
+              "path": ["parties"]
+            }
+          }
+        },
+        {
+          "name": "Get all parties",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Response is an array\", () => pm.expect(pm.response.json()).to.be.an('array'));",
+                  "pm.test(\"Array has at least one element\", () => pm.expect(pm.response.json().length).to.be.greaterThan(0));",
+                  "pm.test(\"First element has id\", () => pm.expect(pm.response.json()[0]).to.have.property('id'));",
+                  "pm.test(\"First element has name\", () => pm.expect(pm.response.json()[0]).to.have.property('name'));",
+                  "pm.test(\"Each party has id and name\", () => {",
+                  "  pm.response.json().forEach(party => {",
+                  "    pm.expect(party).to.have.property('id');",
+                  "    pm.expect(party).to.have.property('name');",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/parties",
+              "host": ["{{baseUrl}}"],
+              "path": ["parties"]
+            }
+          }
+        },
+        {
+          "name": "Get party by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Response is an object\", () => pm.expect(pm.response.json()).to.be.an('object'));",
+                  "pm.test(\"Not an array\", () => pm.expect(pm.response.json()).to.not.be.an('array'));",
+                  "pm.test(\"Has id property\", () => pm.expect(pm.response.json()).to.have.property('id'));",
+                  "pm.test(\"Has name property\", () => pm.expect(pm.response.json()).to.have.property('name'));",
+                  "pm.test(\"ID matches requested ID\", () => pm.expect(pm.response.json().id).to.equal(pm.globals.get('partyId')));",
+                  "pm.test(\"Name is Socialist Party\", () => pm.expect(pm.response.json().name).to.equal('Socialist Party'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/parties/{{partyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["parties", "{{partyId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update party",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Has id property\", () => pm.expect(pm.response.json()).to.have.property('id'));",
+                  "pm.test(\"Has name property\", () => pm.expect(pm.response.json()).to.have.property('name'));",
+                  "pm.test(\"Name is updated\", () => pm.expect(pm.response.json().name).to.equal('Conservative Party'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Conservative Party\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/parties/{{partyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["parties", "{{partyId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete party",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"Response has no body\", () => pm.response.text().to.equal(''));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/parties/{{partyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["parties", "{{partyId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"Has ID\", () => pm.expect(pm.response.json()).to.have.property('id'));",
+                  "pm.test(\"ID is a string\", () => pm.expect(pm.response.json().id).to.be.a('string'));",
+                  "pm.test(\"ID is not empty\", () => pm.expect(pm.response.json().id).to.not.be.empty);",
+                  "pm.test(\"Response has only id property\", () => pm.expect(Object.keys(pm.response.json())).to.have.lengthOf(1));",
+                  "pm.globals.set(\"userId\", pm.response.json().id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"test@example.com\", \"password\": \"secure123\", \"coordinate_id\": \"{{coordinateId}}\", \"party_id\": \"{{partyId}}\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "Get all users",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Response is an array\", () => pm.expect(pm.response.json()).to.be.an('array'));",
+                  "pm.test(\"Array has at least one element\", () => pm.expect(pm.response.json().length).to.be.greaterThan(0));",
+                  "pm.test(\"First element has id\", () => pm.expect(pm.response.json()[0]).to.have.property('id'));",
+                  "pm.test(\"First element has email\", () => pm.expect(pm.response.json()[0]).to.have.property('email'));",
+                  "pm.test(\"Each user has required properties\", () => {",
+                  "  pm.response.json().forEach(user => {",
+                  "    pm.expect(user).to.have.property('id');",
+                  "    pm.expect(user).to.have.property('email');",
+                  "    pm.expect(user).to.have.property('password');",
+                  "    pm.expect(user).to.have.property('coordinate_id');",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "Get user by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Response is an object\", () => pm.expect(pm.response.json()).to.be.an('object'));",
+                  "pm.test(\"Not an array\", () => pm.expect(pm.response.json()).to.not.be.an('array'));",
+                  "pm.test(\"Has id property\", () => pm.expect(pm.response.json()).to.have.property('id'));",
+                  "pm.test(\"Has email property\", () => pm.expect(pm.response.json()).to.have.property('email'));",
+                  "pm.test(\"Has password property\", () => pm.expect(pm.response.json()).to.have.property('password'));",
+                  "pm.test(\"Has coordinate_id property\", () => pm.expect(pm.response.json()).to.have.property('coordinate_id'));",
+                  "pm.test(\"ID matches requested ID\", () => pm.expect(pm.response.json().id).to.equal(pm.globals.get('userId')));",
+                  "pm.test(\"Email is correct\", () => pm.expect(pm.response.json().email).to.equal('test@example.com'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Has id property\", () => pm.expect(pm.response.json()).to.have.property('id'));",
+                  "pm.test(\"Has email property\", () => pm.expect(pm.response.json()).to.have.property('email'));",
+                  "pm.test(\"Email is updated\", () => pm.expect(pm.response.json().email).to.equal('updated@example.com'));",
+                  "pm.test(\"Password is updated\", () => pm.expect(pm.response.json().password).to.equal('newsecure456'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"updated@example.com\", \"password\": \"newsecure456\", \"coordinate_id\": \"{{coordinateId}}\", \"party_id\": \"{{partyId}}\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"Response has no body\", () => pm.response.text().to.equal(''));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Statistics",
+      "item": [
+        {
+          "name": "Get statistics",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Has users count\", () => pm.expect(pm.response.json()).to.have.property('users'));",
+                  "pm.test(\"Has coordinates count\", () => pm.expect(pm.response.json()).to.have.property('coordinates'));",
+                  "pm.test(\"Has parties count\", () => pm.expect(pm.response.json()).to.have.property('parties'));",
+                  "pm.test(\"Users count is a number\", () => pm.expect(pm.response.json().users).to.be.a('number'));",
+                  "pm.test(\"Coordinates count is a number\", () => pm.expect(pm.response.json().coordinates).to.be.a('number'));",
+                  "pm.test(\"Parties count is a number\", () => pm.expect(pm.response.json().parties).to.be.a('number'));",
+                  "pm.test(\"All counts are >= 0\", () => {",
+                  "  pm.expect(pm.response.json().users).to.be.at.least(0);",
+                  "  pm.expect(pm.response.json().coordinates).to.be.at.least(0);",
+                  "  pm.expect(pm.response.json().parties).to.be.at.least(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/statistics",
+              "host": ["{{baseUrl}}"],
+              "path": ["statistics"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "coordinateId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "partyId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

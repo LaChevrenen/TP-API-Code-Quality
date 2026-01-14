@@ -20,7 +20,7 @@ describe('CoordinateController', () => {
       .send({ city: 'Lyon', country: 'France' });
 
     expect(response.status).toBe(201);
-    expect(response.body.city).toBe('Lyon');
+    expect(response.body.id).toBeDefined();
   });
 
   it('should return 400 when data is missing', async () => {

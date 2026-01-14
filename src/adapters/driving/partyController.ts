@@ -14,7 +14,7 @@ export function createPartyRouter(repo?: InMemoryPartyRepo) {
       return res.status(400).json({ message: 'name required' });
     }
     const created = await service.createParty({ name });
-    res.status(201).json(created);
+    res.status(201).json({ id: created.id });
   });
 
   router.get('/', async (req, res) => {

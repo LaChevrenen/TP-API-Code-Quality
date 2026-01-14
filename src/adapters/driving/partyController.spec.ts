@@ -20,7 +20,7 @@ describe('PartyController', () => {
       .send({ name: 'PS' });
 
     expect(response.status).toBe(201);
-    expect(response.body.name).toBe('PS');
+    expect(response.body.id).toBeDefined();
   });
 
   it('should return 400 when name is missing', async () => {

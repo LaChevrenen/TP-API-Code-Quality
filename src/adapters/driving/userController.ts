@@ -15,7 +15,7 @@ export function createUserRouter(repo?: InMemoryUserRepo) {
       return res.status(400).json({ message: 'email, password and coordinate_id required' });
     }
     const created = await service.createUser({ email, password, coordinate_id, party_id });
-    res.status(201).json(created);
+    res.status(201).json({ id: created.id });
   });
 
   router.get('/', async (req, res) => {
